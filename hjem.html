@@ -191,6 +191,8 @@
   .form .btn{width:100%;justify-content:center;background:#fff;color:var(--brand)}
   .form .btn:hover{background:var(--blossom);color:#fff;transform:translateY(-2px)}
   .form .ok{display:none;font-size:.95rem;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:11px;padding:14px;margin-top:4px}
+  .form .ok.err{background:rgba(255,120,120,.16);border-color:rgba(255,150,150,.5)}
+  .form .ok.err a{text-decoration:underline}
   .privacy{font-size:.78rem;color:rgba(255,255,255,.6);margin-top:14px;text-align:center}
 
   /* ---- footer ---- */
@@ -508,17 +510,19 @@
       <p>Bestyrelsen beder hver beboer tilmelde sig nyhedsbrevet pr. e-mail. Det erstatter de papiromdelte informationer. Dine kontaktoplysninger behandles fortroligt og bruges ikke til andre formål.</p>
     </div>
     <div class="form reveal">
-      <form id="signup">
+      <form id="signup" action="https://formspree.io/f/xaqgbwwg" method="POST">
         <label for="navn">Navn</label>
-        <input id="navn" type="text" placeholder="Dit navn" required>
+        <input id="navn" name="navn" type="text" placeholder="Dit navn" required>
         <label for="mail">E-mail</label>
-        <input id="mail" type="email" placeholder="dig@eksempel.dk" required>
+        <input id="mail" name="email" type="email" placeholder="dig@eksempel.dk" required>
         <label for="opgang">Opgang / adresse</label>
-        <input id="opgang" type="text" placeholder="F.eks. Opgang 115A">
+        <input id="opgang" name="opgang" type="text" placeholder="F.eks. Opgang 115A">
+        <input type="hidden" name="_subject" value="Ny tilmelding til nyhedsbrev — Skodsborg Sundpark">
         <button class="btn" type="submit">Tilmeld mig nyhedsbrevet</button>
         <p class="privacy">Du kan til enhver tid framelde dig igen.</p>
       </form>
-      <div class="ok" id="ok">Tak! Du er nu tilmeldt nyhedsbrevet. <em>(demo — der sendes ikke noget)</em></div>
+      <div class="ok" id="ok">Tak! Du er nu tilmeldt nyhedsbrevet. Du hører fra bestyrelsen.</div>
+      <div class="ok err" id="signup-err" style="display:none">Noget gik galt. Prøv igen, eller skriv til <a href="mailto:beboerrep.skodsborg@jubii.dk">bestyrelsen</a>.</div>
     </div>
   </div>
 </section>
@@ -576,11 +580,34 @@
   },{threshold:.14});
   document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay=(i%4*70)+'ms'; io.observe(el); });
 
-  // newsletter demo
-  document.getElementById('signup').addEventListener('submit', function(ev){
+  // newsletter — submit to Formspree via AJAX (stays on page)
+  document.getElementById('signup').addEventListener('submit', async function(ev){
     ev.preventDefault();
-    this.style.display='none';
-    document.getElementById('ok').style.display='block';
+    const form = this;
+    const btn = form.querySelector('button[type="submit"]');
+    const ok = document.getElementById('ok');
+    const err = document.getElementById('signup-err');
+    err.style.display = 'none';
+    btn.disabled = true;
+    const original = btn.textContent;
+    btn.textContent = 'Sender…';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        ok.style.display = 'block';
+      } else {
+        throw new Error('submit failed');
+      }
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = original;
+      err.style.display = 'block';
+    }
   });
 
   // logout — clear session and return to the login page
