@@ -77,6 +77,10 @@
   header.scrolled .menu a.lnk{color:var(--ink)}
   .menu a.lnk::after{content:"";position:absolute;left:0;bottom:-6px;height:1.5px;width:0;background:var(--blossom);transition:width .3s var(--ease)}
   .menu a.lnk:hover::after{width:100%}
+  header.scrolled .logout-btn{border-color:var(--line);color:var(--brand)}
+  .logout-btn{border:1.5px solid rgba(255,255,255,.5);color:#fff;border-radius:999px;padding:.5em 1.15em;font-size:.9rem;font-weight:500;display:inline-flex;gap:.5em;align-items:center;cursor:pointer;transition:.35s var(--ease)}
+  .logout-btn:hover{background:var(--brand);border-color:var(--brand);color:#fff}
+  header.scrolled .logout-btn:hover{color:#fff}
   .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px}
   .burger span{width:24px;height:2px;background:#fff;transition:.3s}
   header.scrolled .burger span{background:var(--ink)}
@@ -208,6 +212,7 @@
   @media (max-width:680px){
     .menu{display:none}
     .burger{display:flex}
+    .logout-btn{display:none}
     .cards,.board-grid{grid-template-columns:1fr}
     .foot-top{grid-template-columns:1fr}
     .hero-inner{padding-bottom:7vh}
@@ -234,6 +239,10 @@
       <a class="lnk" href="#arkiv">Dokumenter</a>
       <a class="lnk" href="#nyhedsbrev">Nyhedsbrev</a>
       <a class="lnk" href="#kontakt">Kontakt</a>
+      <a class="logout-btn" href="#" id="logout">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        Log ud
+      </a>
     </nav>
     <button class="burger" id="burger" aria-label="Åbn menu"><span></span><span></span><span></span></button>
   </div>
@@ -247,6 +256,7 @@
   <a href="#arkiv">Dokumenter</a>
   <a href="#nyhedsbrev">Nyhedsbrev</a>
   <a href="#kontakt">Kontakt</a>
+  <a class="btn btn-ghost" href="#" id="logout-m">Log ud</a>
 </div>
 
 <!-- HERO -->
@@ -478,6 +488,15 @@
     this.style.display='none';
     document.getElementById('ok').style.display='block';
   });
+
+  // logout — clear session and return to the login page
+  function logout(ev){
+    ev.preventDefault();
+    sessionStorage.removeItem('ssp-auth');
+    location.replace('index.html');
+  }
+  document.getElementById('logout').addEventListener('click', logout);
+  document.getElementById('logout-m').addEventListener('click', logout);
 </script>
 </body>
 </html>
