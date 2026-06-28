@@ -234,6 +234,17 @@
     *{animation:none!important;transition:none!important}
     .reveal{opacity:1;transform:none}
   }
+
+  /* ---- print: only the vedtægter section ---- */
+  @media print{
+    body > *:not(#vedtaegter){display:none !important}
+    .no-print{display:none !important}
+    #vedtaegter{display:block !important;padding:0 !important;background:#fff !important}
+    #vedtaegter .reveal{opacity:1 !important;transform:none !important}
+    .vedt-item{break-inside:avoid;page-break-inside:avoid}
+    .vedt-no,.kicker,#vedtaegter h2{color:#000 !important}
+    body{background:#fff !important;color:#000 !important}
+  }
 </style>
 </head>
 <body>
@@ -418,6 +429,10 @@
       <span class="kicker">Vedtægter</span>
       <h2>Foreningens vedtægter</h2>
       <p>Vedtægter 2022 for beboerforeningen i Skodsborg Sundpark.</p>
+      <button type="button" class="btn btn-primary no-print" id="print-vedt" style="margin-top:22px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print / Gem som PDF
+      </button>
     </div>
     <div class="vedt-list">
       <div class="vedt-item reveal">
@@ -612,6 +627,11 @@
   }
   document.getElementById('logout').addEventListener('click', logout);
   document.getElementById('logout-m').addEventListener('click', logout);
+
+  // print / save vedtægter as PDF
+  document.getElementById('print-vedt').addEventListener('click', function(){
+    window.print();
+  });
 </script>
 </body>
 </html>
