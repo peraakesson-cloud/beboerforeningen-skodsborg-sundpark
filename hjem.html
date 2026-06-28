@@ -164,6 +164,18 @@
   .doc .dl{color:var(--muted);display:inline-flex;transition:transform .3s var(--ease),color .3s}
   .doc:hover .dl{color:var(--brand);transform:translateX(3px)}
 
+  /* ---- vedtægter / statutes ---- */
+  .vedt{background:var(--mist)}
+  .vedt-list{margin-top:48px;max-width:860px;counter-reset:vedt}
+  .vedt-item{display:grid;grid-template-columns:auto 1fr;gap:22px;padding:26px 0;border-bottom:1px solid var(--line)}
+  .vedt-item:last-child{border-bottom:0}
+  .vedt-no{font-family:"Fraunces",Georgia,serif;font-size:1.5rem;line-height:1;color:var(--brand);min-width:2.2rem;font-weight:500}
+  .vedt-body p{margin-bottom:.85em}
+  .vedt-body p:last-child{margin-bottom:0}
+  .vedt-body ol{margin:.4em 0 .2em 1.3em;padding:0}
+  .vedt-body ol li{margin-bottom:.35em;padding-left:.3em}
+  .vedt-note{display:block;color:var(--muted);font-size:.92rem;margin-top:36px}
+
   /* ---- newsletter ---- */
   .news{background:var(--brand);color:#fff;position:relative;overflow:hidden}
   .news::before{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(217,138,160,.35),transparent 70%)}
@@ -237,6 +249,7 @@
       <a class="lnk" href="#velkomst">Om foreningen</a>
       <a class="lnk" href="#bestyrelse">Bestyrelsen</a>
       <a class="lnk" href="#arkiv">Dokumenter</a>
+      <a class="lnk" href="#vedtaegter">Vedtægter</a>
       <a class="lnk" href="#nyhedsbrev">Nyhedsbrev</a>
       <a class="lnk" href="#kontakt">Kontakt</a>
       <a class="logout-btn" href="#" id="logout">
@@ -254,6 +267,7 @@
   <a href="#velkomst">Om foreningen</a>
   <a href="#bestyrelse">Bestyrelsen</a>
   <a href="#arkiv">Dokumenter</a>
+  <a href="#vedtaegter">Vedtægter</a>
   <a href="#nyhedsbrev">Nyhedsbrev</a>
   <a href="#kontakt">Kontakt</a>
   <a class="btn btn-ghost" href="#" id="logout-m">Log ud</a>
@@ -338,11 +352,11 @@
         <p>Foreningens årsregnskaber og budget.</p>
         <span class="go">Åbn arkiv <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
-      <a class="card reveal" href="#arkiv">
+      <a class="card reveal" href="#vedtaegter">
         <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9.5 12l2 2 3.5-4"/></svg></div>
         <h3>Vedtægter</h3>
         <p>Foreningens vedtægter og gældende regler.</p>
-        <span class="go">Åbn arkiv <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="go">Læs vedtægter <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
     </div>
   </div>
@@ -395,6 +409,106 @@
   </div>
 </section>
 
+<hr class="horizon">
+
+<!-- VEDTÆGTER -->
+<section class="block vedt" id="vedtaegter">
+  <div class="wrap">
+    <div class="lead-head reveal">
+      <span class="kicker">Vedtægter</span>
+      <h2>Foreningens vedtægter</h2>
+      <p>Vedtægter 2022 for beboerforeningen i Skodsborg Sundpark.</p>
+    </div>
+    <div class="vedt-list">
+      <div class="vedt-item reveal">
+        <div class="vedt-no">1</div>
+        <div class="vedt-body">
+          <p>Foreningens formål er som beboerrepræsentation at varetage lejernes interesse i Skodsborg Sundpark, såvel i almindelighed, som i enkelttilfælde, samt i alle forhold at virke for lejernes ønsker om trivsel og velfærd, samt tage initiativ til udarbejdelse af ordensregler/husorden.</p>
+        </div>
+      </div>
+      <div class="vedt-item reveal">
+        <div class="vedt-no">2</div>
+        <div class="vedt-body">
+          <p>Kontingentet betales for et helt kalenderår og opkræves af udlejer i forbindelse med huslejebetalingen.</p>
+        </div>
+      </div>
+      <div class="vedt-item reveal">
+        <div class="vedt-no">3</div>
+        <div class="vedt-body">
+          <p>Regnskabsåret er kalenderåret. Efter kalenderåret udløb affattes der senest 15. marts et driftsregnskab over foreningens indtægter, udgifter samt status. Regnskabet skal være revideret inden den 1. april samme år.</p>
+        </div>
+      </div>
+      <div class="vedt-item reveal">
+        <div class="vedt-no">4</div>
+        <div class="vedt-body">
+          <p>I henhold til lovbekendtgørelse 837 §4 af 20. sept. 1996 skal der ved et beboermøde foretages valg af beboerrepræsentanter og suppleanter for disse. Der skal vælges minimum 3 beboerrepræsentanter. Beboerrepræsentanterne/bestyrelsen konstituerer sig selv med formand og kasserer. Bestyrelsen vælges for 2 år ad gangen. Genvalg kan finde sted.</p>
+          <p>Det tilstræbes at evt. udskiftning sker rullende således at ikke alle medlemmer skiftes samtidig, dette for at sikre kontinuiteten i bestyrelsen.</p>
+          <p>Generalforsamlingen vælger en revisor for 2 år ad gangen. Genvalg kan finde sted.</p>
+        </div>
+      </div>
+      <div class="vedt-item reveal">
+        <div class="vedt-no">5</div>
+        <div class="vedt-body">
+          <p>Generalforsamlingen er foreningens øverste myndighed.</p>
+          <p>Ordinær generalforsamling afholdes hvert år inden 1. april.</p>
+          <p>Dagsordenen for den ordinære generalforsamling skal indeholde følgende punkter:</p>
+          <ol>
+            <li>Valg af dirigent.</li>
+            <li>Bestyrelsens beretning.</li>
+            <li>Forelæggelse af årsregnskab til godkendelse.</li>
+            <li>Fastsættelse af kontingent.</li>
+            <li>Behandling af indkomne forslag.</li>
+            <li>Valg af bestyrelsesmedlemmer.</li>
+            <li>Valg af suppleanter.</li>
+            <li>Valg af revisor.</li>
+            <li>Eventuelt: Forslag under dette punkt kan ikke sættes under afstemning.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="vedt-item reveal">
+        <div class="vedt-no">6</div>
+        <div class="vedt-body">
+          <p>Generalforsamlingen indkaldes skriftligt af bestyrelsen med mindst 4 ugers varsel, med angivelse af tid og sted samt dagsorden for mødet.</p>
+          <p>Tilmelding med antal deltagere pr. lejemål, og forslag til behandling på generalforsamlingen skal være bestyrelsen i hænde senest 3 uger før generalforsamlingens afholdelse.</p>
+          <p>Forslag og tilmelding kan ske på foreningens mailadresse eller afgives skriftligt i beboerforeningens postkasse. Et forslag på generalforsamlingen kan kun behandles, og stemmes om, såfremt det enten er nævnt i indkaldelsen, eller beboerne ved opslag eller på lignende måde senest 1 uge før generalforsamlingen er gjort bekendt med, at det kommer til behandling og afstemning på generalforsamlingen.</p>
+          <p>Ekstraordinær generalforsamling afholdes, når en generalforsamling, et flertal af bestyrelsens medlemmer, eller ¼ af beboerne forlanger det med angivelse af dagsorden.</p>
+          <p>Adgang til generalforsamlingen har enhver beboelseslejer og dennes myndige husstandsmedlemmer, repræsentanter for udlejer og – såfremt en lejer ønsker det – repræsentanter for en lejerforening, hvoraf pågældende lejer er medlem.</p>
+        </div>
+      </div>
+      <div class="vedt-item reveal">
+        <div class="vedt-no">7</div>
+        <div class="vedt-body">
+          <p>Generalforsamlingen træffer beslutning ved almindelig stemmeflerhed blandt de fremmødte beboere. Hvert lejemål har èn stemme.</p>
+          <p>Afstemningen sker ved håndsoprækning, medmindre skriftlig afstemning forlanges. En stemmeberettiget beboer kan lade sig repræsentere ved skriftlig fuldmagt, der godkendes af dirigenten ved generalforsamlingens begyndelse.</p>
+          <p>Ændring af vedtægterne eller beslutninger vedrørende husordenen kræver, at et flertal af samtlige lejemål på en generalforsamling stemmer herfor.</p>
+          <p>Såfremt forslaget ikke vedtages efter denne regel, skal der afholdes ny generalforsamling inden 1 måned. På dette møde kan forslaget – uanset antallet af fremmødte lejemål – vedtages med halvdelen af de afgivne stemmer, én stemme pr. lejemål.</p>
+        </div>
+      </div>
+      <div class="vedt-item reveal">
+        <div class="vedt-no">8</div>
+        <div class="vedt-body">
+          <p>Når bestyrelsen er valgt, påhviler det den at meddele udlejer resultatet af valget.</p>
+          <p>Bestyrelsen skal samtidig give meddelelse til udlejer om størrelsen af det fastsatte kontingent.</p>
+        </div>
+      </div>
+      <div class="vedt-item reveal">
+        <div class="vedt-no">9</div>
+        <div class="vedt-body">
+          <p>Beboerforeningen tegnes af formanden og kassereren i forening.</p>
+          <p>Formanden alene kan dog foretage økonomiske dispositioner på indtil kr. 3.000,-.</p>
+        </div>
+      </div>
+      <div class="vedt-item reveal">
+        <div class="vedt-no">10</div>
+        <div class="vedt-body">
+          <p>Såfremt foreningens funktion som beboerrepræsentation bliver opløst efter reglerne om opløsning af beboerrepræsentation i den til enhver tid gældende lejelovgivning, vil eventuelle likvide midler tilfalde de aktuelle lejemål.</p>
+        </div>
+      </div>
+    </div>
+    <small class="vedt-note reveal">Vedtægter 2022 for beboerforeningen i Skodsborg Sundpark.</small>
+  </div>
+</section>
+
 <!-- NEWSLETTER -->
 <section class="block news" id="nyhedsbrev">
   <div class="wrap">
@@ -442,6 +556,7 @@
           <li><a href="#velkomst">Om foreningen</a></li>
           <li><a href="#bestyrelse">Bestyrelsen</a></li>
           <li><a href="#arkiv">Dokumenter</a></li>
+          <li><a href="#vedtaegter">Vedtægter</a></li>
           <li><a href="#nyhedsbrev">Tilmeld nyhedsbrev</a></li>
         </ul>
       </div>
