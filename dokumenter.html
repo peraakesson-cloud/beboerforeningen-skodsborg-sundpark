@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <script>
+    if (sessionStorage.getItem("ssp-auth") !== "ok") { location.replace("index.html"); }
+  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dokumenter — Beboerforeningen Skodsborg Sundpark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2a121f;
+    --brand:#4b1938;
+    --brand-soft:#6e2b51;
+    --sound:#436b7a;
+    --blossom:#d98aa0;
+    --paper:#fcfbf9;
+    --mist:#f3f1ee;
+    --line:#e7e1da;
+    --muted:#6f6068;
+    --maxw:1180px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--ink);background:var(--paper);line-height:1.65;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:"Fraunces",Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:-.01em}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+  .kicker{font-size:.74rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--brand);display:inline-flex;align-items:center;gap:.7em}
+  .kicker::before{content:"";width:26px;height:2px;background:linear-gradient(90deg,var(--brand),var(--blossom));display:inline-block}
+  .horizon{height:2px;border:0;background:linear-gradient(90deg,transparent,var(--brand) 20%,var(--sound) 80%,transparent);opacity:.5;max-width:var(--maxw);margin:0 auto}
+
+  /* ---- buttons ---- */
+  .btn{display:inline-flex;align-items:center;gap:.5em;font-weight:500;font-size:.96rem;padding:.82em 1.5em;border-radius:999px;cursor:pointer;border:1.5px solid transparent;transition:transform .35s var(--ease),background .35s var(--ease),color .35s var(--ease),box-shadow .35s var(--ease)}
+  .btn-ink{background:transparent;color:var(--brand);border-color:var(--line)}
+  .btn-ink:hover{background:var(--brand);color:#fff;border-color:var(--brand);transform:translateY(-2px)}
+
+  /* ---- header ---- */
+  header{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .4s var(--ease),box-shadow .4s var(--ease),padding .4s var(--ease);padding:22px 0;background:rgba(252,251,249,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line)}
+  header.scrolled{padding:14px 0}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .brand{display:flex;align-items:center;gap:13px;color:var(--ink)}
+  .monogram{width:42px;height:42px;border-radius:11px;flex:none;display:grid;place-items:center;background:var(--brand);color:#fff;font-family:"Fraunces",serif;font-size:1.25rem;font-weight:600;box-shadow:0 6px 18px -8px rgba(75,25,56,.6)}
+  .brand b{font-family:"Fraunces",serif;font-weight:600;font-size:1.05rem;letter-spacing:-.01em;display:block;line-height:1.05}
+  .brand span{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;opacity:.8;font-weight:500}
+  .menu{display:flex;align-items:center;gap:30px}
+  .menu a.lnk{color:var(--ink);font-size:.93rem;font-weight:500;position:relative;transition:color .3s}
+  .menu a.lnk::after{content:"";position:absolute;left:0;bottom:-6px;height:1.5px;width:0;background:var(--blossom);transition:width .3s var(--ease)}
+  .menu a.lnk:hover::after{width:100%}
+  .menu a.lnk.active::after{width:100%}
+  .logout-btn{border:1.5px solid var(--line);color:var(--brand);border-radius:999px;padding:.5em 1.15em;font-size:.9rem;font-weight:500;display:inline-flex;gap:.5em;align-items:center;cursor:pointer;transition:.35s var(--ease)}
+  .logout-btn:hover{background:var(--brand);border-color:var(--brand);color:#fff}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px}
+  .burger span{width:24px;height:2px;background:var(--ink);transition:.3s}
+
+  /* ---- page head ---- */
+  .page-head{padding:140px 0 50px;background:var(--brand);color:#fff}
+  .page-head .kicker{color:#fff}
+  .page-head .kicker::before{background:linear-gradient(90deg,#fff,var(--blossom))}
+  .page-head h1{font-size:clamp(2.1rem,4.4vw,3.2rem);margin:.35em 0 .25em}
+  .page-head p{color:rgba(255,255,255,.84);max-width:60ch}
+  .crumbs{font-size:.86rem;color:rgba(255,255,255,.7);margin-bottom:8px}
+  .crumbs a:hover{color:#fff}
+
+  /* ---- documents ---- */
+  .docs-section{padding:clamp(56px,7vw,90px) 0}
+  .doc-group{margin-bottom:54px}
+  .doc-group:last-child{margin-bottom:0}
+  .doc-group > h2{font-size:1.5rem;display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+  .doc-group > h2 small{font-family:"Inter",sans-serif;font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sound)}
+  .doc-group > .sub{color:var(--muted);font-size:.94rem;margin-bottom:18px;max-width:60ch}
+  .doc-list{border-top:1px solid var(--line)}
+  .doc{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 4px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .doc-main{display:flex;align-items:center;gap:14px;flex:1 1 240px;transition:padding .35s var(--ease),color .3s}
+  .doc-main:hover{padding-left:10px;color:var(--brand)}
+  .doc .fic{color:var(--brand);opacity:.7;flex:none}
+  .doc .yr{font-weight:500}
+  .doc .meta{color:var(--muted);font-size:.82rem;margin-left:4px}
+  .doc-actions{display:flex;gap:10px;flex:none}
+  .docbtn{display:inline-flex;align-items:center;gap:.5em;font-size:.86rem;font-weight:500;padding:.5em 1em;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--brand);cursor:pointer;transition:.3s var(--ease)}
+  .docbtn:hover{background:var(--brand);border-color:var(--brand);color:#fff;transform:translateY(-1px)}
+  .docbtn svg{flex:none}
+
+  /* ---- footer ---- */
+  footer{background:var(--ink);color:rgba(255,255,255,.78);padding:64px 0 30px}
+  .foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.12)}
+  .foot-brand .monogram{margin-bottom:16px}
+  .foot-brand p{font-size:.93rem;max-width:34ch;color:rgba(255,255,255,.65)}
+  footer h4{font-family:"Inter",sans-serif;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin-bottom:16px;font-weight:600}
+  footer ul{list-style:none}
+  footer ul li{margin-bottom:10px;font-size:.93rem}
+  footer a:hover{color:var(--blossom)}
+  .foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:24px;font-size:.82rem;color:rgba(255,255,255,.5)}
+  .demo-pill{background:rgba(217,138,160,.18);border:1px solid rgba(217,138,160,.4);color:#f3c6d2;border-radius:999px;padding:.35em 1em;font-weight:500}
+
+  /* ---- mobile menu ---- */
+  .mobile-panel{position:fixed;inset:0;z-index:60;background:var(--brand);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;transform:translateX(100%);transition:transform .45s var(--ease);visibility:hidden}
+  .mobile-panel.open{transform:none;visibility:visible}
+  .mobile-panel a{color:#fff;font-family:"Fraunces",serif;font-size:1.7rem}
+  .mobile-panel .close{position:absolute;top:24px;right:26px;background:none;border:0;color:#fff;font-size:2rem;cursor:pointer;line-height:1}
+  .mobile-panel .btn{margin-top:18px}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:680px){
+    .menu{display:none}
+    .burger{display:flex}
+    .foot-top{grid-template-columns:1fr}
+    .doc-actions{flex:1 1 100%;justify-content:flex-start}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="hdr" class="scrolled">
+  <div class="wrap nav">
+    <a href="hjem.html#top" class="brand" aria-label="Skodsborg Sundpark forside">
+      <span class="monogram">S</span>
+      <span><b>Skodsborg Sundpark</b><span>Beboerforeningen</span></span>
+    </a>
+    <nav class="menu">
+      <a class="lnk" href="hjem.html#velkomst">Om foreningen</a>
+      <a class="lnk" href="hjem.html#bestyrelse">Bestyrelsen</a>
+      <a class="lnk active" href="dokumenter.html">Dokumenter</a>
+      <a class="lnk" href="hjem.html#vedtaegter">Vedtægter</a>
+      <a class="lnk" href="hjem.html#nyhedsbrev">Nyhedsbrev</a>
+      <a class="lnk" href="hjem.html#kontakt">Kontakt</a>
+      <a class="logout-btn" href="#" id="logout">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        Log ud
+      </a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Åbn menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-panel" id="mpanel">
+  <button class="close" id="mclose" aria-label="Luk menu">&times;</button>
+  <a href="hjem.html#velkomst">Om foreningen</a>
+  <a href="hjem.html#bestyrelse">Bestyrelsen</a>
+  <a href="dokumenter.html">Dokumenter</a>
+  <a href="hjem.html#vedtaegter">Vedtægter</a>
+  <a href="hjem.html#nyhedsbrev">Nyhedsbrev</a>
+  <a href="hjem.html#kontakt">Kontakt</a>
+  <a class="btn btn-ink" href="#" id="logout-m" style="background:#fff">Log ud</a>
+</div>
+
+<!-- PAGE HEAD -->
+<section class="page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="hjem.html#top">Forside</a> &rsaquo; Dokumenter</div>
+    <span class="kicker">Arkiv</span>
+    <h1>Dokumenter &amp; referater</h1>
+    <p>Alt fra foreningen samlet ét sted — referater, bestyrelsens beretninger og årsregnskaber. Hvert dokument kan åbnes, downloades som PDF eller printes.</p>
+  </div>
+</section>
+
+<!-- DOCUMENTS -->
+<section class="docs-section">
+  <div class="wrap">
+    <div class="doc-group reveal">
+      <h2>Referater <small>Generalforsamling</small></h2>
+      <p class="sub">Referater fra de ordinære generalforsamlinger.</p>
+      <div class="doc-list" id="referater"></div>
+    </div>
+    <div class="doc-group reveal">
+      <h2>Beretninger <small>Årligt</small></h2>
+      <p class="sub">Bestyrelsens årlige beretninger.</p>
+      <div class="doc-list" id="beretninger"></div>
+    </div>
+    <div class="doc-group reveal">
+      <h2>Regnskaber <small>Årligt</small></h2>
+      <p class="sub">Foreningens reviderede årsregnskaber.</p>
+      <div class="doc-list" id="regnskaber"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="monogram">S</span>
+        <h4 style="margin-top:14px">Beboerforeningen Skodsborg Sundpark</h4>
+        <p>En registreret beboerforening for husene ud til Øresund i Skodsborg. CVR 41316012.</p>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="mailto:beboerrep.skodsborg@jubii.dk">beboerrep.skodsborg@jubii.dk</a></li>
+          <li>Fysisk postkasse: Opgang 115A</li>
+          <li>CVR-nr. 41316012</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Genveje</h4>
+        <ul>
+          <li><a href="hjem.html#velkomst">Om foreningen</a></li>
+          <li><a href="hjem.html#bestyrelse">Bestyrelsen</a></li>
+          <li><a href="dokumenter.html">Dokumenter</a></li>
+          <li><a href="hjem.html#vedtaegter">Vedtægter</a></li>
+          <li><a href="hjem.html#nyhedsbrev">Tilmeld nyhedsbrev</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Beboerforeningen Skodsborg Sundpark</span>
+      <span class="demo-pill">Designudkast · forslag til ny hjemmeside</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- document data ----
+  const DOCS = {
+    referater:  { label: 'Referat',   file: 'referat',   years: [2025, 2024, 2023, 2022] },
+    beretninger:{ label: 'Beretning', file: 'beretning', years: [2025, 2024, 2023, 2022] },
+    regnskaber: { label: 'Regnskab',  file: 'regnskab',  years: [2025, 2024, 2023, 2022] },
+  };
+  const fileIcon = '<svg class="fic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3h9l5 5v13H5z"/><path d="M13 3v6h6"/></svg>';
+  const dlIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>';
+  const printIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>';
+
+  function buildRows(key){
+    const g = DOCS[key];
+    return g.years.map(function(y){
+      const url = 'dokumenter/' + g.file + '-' + y + '.pdf';
+      return ''
+        + '<div class="doc">'
+        +   '<a class="doc-main" href="' + url + '" target="_blank" rel="noopener">'
+        +     fileIcon
+        +     '<span><span class="yr">' + g.label + ' ' + y + '</span> <span class="meta">PDF</span></span>'
+        +   '</a>'
+        +   '<span class="doc-actions">'
+        +     '<a class="docbtn" href="' + url + '" download>' + dlIcon + ' Download</a>'
+        +     '<button class="docbtn" type="button" data-print="' + url + '">' + printIcon + ' Print</button>'
+        +   '</span>'
+        + '</div>';
+    }).join('');
+  }
+  Object.keys(DOCS).forEach(function(key){
+    document.getElementById(key).innerHTML = buildRows(key);
+  });
+
+  // ---- print a PDF (hidden iframe, fallback to new tab) ----
+  document.addEventListener('click', function(ev){
+    const btn = ev.target.closest('[data-print]');
+    if(!btn) return;
+    const url = btn.getAttribute('data-print');
+    const frame = document.createElement('iframe');
+    frame.style.position = 'fixed';
+    frame.style.right = '0'; frame.style.bottom = '0';
+    frame.style.width = '0'; frame.style.height = '0'; frame.style.border = '0';
+    frame.src = url;
+    let printed = false;
+    frame.onload = function(){
+      try {
+        frame.contentWindow.focus();
+        frame.contentWindow.print();
+        printed = true;
+      } catch(e){
+        window.open(url, '_blank', 'noopener');
+      }
+    };
+    document.body.appendChild(frame);
+    // fallback if the PDF viewer blocks programmatic print
+    setTimeout(function(){ if(!printed){ /* viewer may handle print itself */ } }, 1500);
+  });
+
+  // ---- header scroll state ----
+  const hdr = document.getElementById('hdr');
+  const onScroll = ()=> hdr.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // ---- mobile menu ----
+  const panel = document.getElementById('mpanel');
+  document.getElementById('burger').onclick = ()=>panel.classList.add('open');
+  document.getElementById('mclose').onclick = ()=>panel.classList.remove('open');
+  panel.querySelectorAll('a').forEach(a=>a.onclick=()=>panel.classList.remove('open'));
+
+  // ---- reveal on scroll ----
+  const io = new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.14});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay=(i%4*70)+'ms'; io.observe(el); });
+
+  // ---- logout ----
+  function logout(ev){
+    ev.preventDefault();
+    sessionStorage.removeItem('ssp-auth');
+    location.replace('index.html');
+  }
+  document.getElementById('logout').addEventListener('click', logout);
+  document.getElementById('logout-m').addEventListener('click', logout);
+</script>
+</body>
+</html>
