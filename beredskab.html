@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <script>
+    if (sessionStorage.getItem("ssp-auth") !== "ok") { location.replace("index.html"); }
+  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beredskabsplan — Beboerforeningen Skodsborg Sundpark</title>
+<meta name="description" content="Beredskabsplan for Beboerforeningen Skodsborg Sundpark — WhatsApp-gruppe, alarmering, handlingsplaner og ansvarsfordeling.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2a121f;
+    --brand:#4b1938;
+    --brand-soft:#6e2b51;
+    --sound:#436b7a;
+    --blossom:#d98aa0;
+    --paper:#fcfbf9;
+    --mist:#f3f1ee;
+    --line:#e7e1da;
+    --muted:#6f6068;
+    --alert:#b3312d;
+    --wa:#25d366;
+    --wa-dark:#128c4b;
+    --placeholder:#fbecd0;
+    --placeholder-ink:#8a6410;
+    --maxw:1180px;
+    --readw:860px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--ink);background:var(--paper);line-height:1.65;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:"Fraunces",Georgia,serif;font-weight:500;line-height:1.1;letter-spacing:-.01em}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .read{max-width:var(--readw);margin:0 auto;padding:0 28px}
+
+  .kicker{font-size:.74rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--brand);display:inline-flex;align-items:center;gap:.7em}
+  .kicker::before{content:"";width:26px;height:2px;background:linear-gradient(90deg,var(--brand),var(--blossom));display:inline-block}
+
+  /* ---- buttons ---- */
+  .btn{display:inline-flex;align-items:center;gap:.5em;font-weight:500;font-size:.96rem;padding:.82em 1.5em;border-radius:999px;cursor:pointer;border:1.5px solid transparent;transition:transform .35s var(--ease),background .35s var(--ease),color .35s var(--ease),box-shadow .35s var(--ease)}
+  .btn-ink{background:transparent;color:var(--brand);border-color:var(--line)}
+  .btn-ink:hover{background:var(--brand);color:#fff;border-color:var(--brand);transform:translateY(-2px)}
+
+  /* ---- header ---- */
+  header{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .4s var(--ease),box-shadow .4s var(--ease),padding .4s var(--ease);padding:22px 0;background:rgba(252,251,249,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line)}
+  header.scrolled{padding:14px 0}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .brand{display:flex;align-items:center;gap:13px;color:var(--ink)}
+  .monogram{width:42px;height:42px;border-radius:11px;flex:none;display:grid;place-items:center;background:var(--brand);color:#fff;font-family:"Fraunces",serif;font-size:1.25rem;font-weight:600;box-shadow:0 6px 18px -8px rgba(75,25,56,.6)}
+  .brand b{font-family:"Fraunces",serif;font-weight:600;font-size:1.05rem;letter-spacing:-.01em;display:block;line-height:1.05}
+  .brand span{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;opacity:.8;font-weight:500}
+  .menu{display:flex;align-items:center;gap:26px}
+  .menu a.lnk{color:var(--ink);font-size:.93rem;font-weight:500;position:relative;transition:color .3s}
+  .menu a.lnk::after{content:"";position:absolute;left:0;bottom:-6px;height:1.5px;width:0;background:var(--blossom);transition:width .3s var(--ease)}
+  .menu a.lnk:hover::after,.menu a.lnk.active::after{width:100%}
+  .logout-btn{border:1.5px solid var(--line);color:var(--brand);border-radius:999px;padding:.5em 1.15em;font-size:.9rem;font-weight:500;display:inline-flex;gap:.5em;align-items:center;cursor:pointer;transition:.35s var(--ease)}
+  .logout-btn:hover{background:var(--brand);border-color:var(--brand);color:#fff}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px}
+  .burger span{width:24px;height:2px;background:var(--ink);transition:.3s}
+
+  /* ---- page head ---- */
+  .page-head{padding:140px 0 50px;background:var(--brand);color:#fff}
+  .page-head .kicker{color:#fff}
+  .page-head .kicker::before{background:linear-gradient(90deg,#fff,var(--blossom))}
+  .page-head h1{font-size:clamp(2.1rem,4.4vw,3.4rem);margin:.35em 0 .25em}
+  .page-head p{color:rgba(255,255,255,.84);max-width:60ch}
+  .crumbs{font-size:.86rem;color:rgba(255,255,255,.7);margin-bottom:8px}
+  .crumbs a:hover{color:#fff}
+  .page-head .meta{margin-top:18px;font-size:.84rem;color:rgba(255,255,255,.6);letter-spacing:.03em}
+
+  /* ---- alarm banner ---- */
+  .alarm{background:var(--alert);color:#fff;text-align:center;padding:1.05rem 1.5rem;font-weight:500}
+  .alarm strong{font-size:1.5rem;letter-spacing:.08em;font-weight:700}
+
+  /* ---- whatsapp join ---- */
+  .wa-section{background:var(--mist);padding:clamp(50px,7vw,80px) 0}
+  .wa-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center}
+  .wa-grid .kicker{color:var(--wa-dark)}
+  .wa-grid .kicker::before{background:linear-gradient(90deg,var(--wa-dark),var(--wa))}
+  .wa-grid h2{font-size:clamp(1.7rem,3vw,2.4rem);margin:.35em 0 .5em}
+  .wa-grid p{color:var(--muted);margin-bottom:1em}
+  .wa-steps{list-style:none;margin:18px 0 0;padding:0}
+  .wa-steps li{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;color:var(--ink)}
+  .wa-steps .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--wa-dark);color:#fff;display:grid;place-items:center;font-size:.85rem;font-weight:600}
+  .qr-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:0 30px 60px -30px rgba(42,18,31,.4);text-align:center}
+  .qr-card .qr-title{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:600;color:var(--ink);margin-bottom:4px}
+  .qr-card .qr-sub{font-size:.85rem;color:var(--muted);margin-bottom:18px}
+  .qr-card img{width:100%;max-width:300px;margin:0 auto;border-radius:12px}
+  .qr-card .wa-badge{display:inline-flex;align-items:center;gap:.5em;margin-top:16px;background:var(--wa);color:#0b3d22;font-weight:600;font-size:.9rem;padding:.55em 1.2em;border-radius:999px}
+
+  /* ---- content ---- */
+  .content{padding:clamp(46px,6vw,72px) 0}
+  .content section{scroll-margin-top:90px;margin-bottom:44px}
+  .content section:last-child{margin-bottom:0}
+  h2.sec{font-size:1.7rem;display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .num{display:inline-flex;align-items:center;justify-content:center;width:2.1rem;height:2.1rem;border-radius:50%;background:var(--brand);color:#fff;font-family:"Inter",sans-serif;font-size:.95rem;font-weight:600;flex:none}
+  .content h3{font-size:1.2rem;margin:1.4rem 0 .5rem}
+  .content p{margin-bottom:1rem}
+  .content ul,.content ol{margin:0 0 1rem 1.3rem}
+  .content li{margin-bottom:.4rem}
+  .content li::marker{color:var(--brand-soft)}
+
+  /* ---- tables ---- */
+  .tbl-scroll{overflow-x:auto;margin:0 0 1rem}
+  table{width:100%;border-collapse:collapse;font-size:.95rem;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  th{background:var(--mist);color:var(--brand);text-align:left;font-weight:600;padding:.65rem .85rem;border-bottom:2px solid var(--line);font-size:.76rem;letter-spacing:.06em;text-transform:uppercase}
+  td{padding:.6rem .85rem;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .tel{font-weight:700;color:var(--brand);white-space:nowrap}
+
+  /* ---- cards / notice ---- */
+  .card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:1.1rem}
+  .card h3{margin-top:0}
+  .card.alertcard{border-left-color:var(--alert)}
+  .card.alertcard h3{color:var(--alert)}
+  .notice{background:var(--mist);border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.4rem;margin:1.2rem 0;font-size:.95rem}
+  .notice strong{color:var(--brand)}
+  mark{background:var(--placeholder);color:var(--placeholder-ink);padding:.05em .4em;border-radius:4px;font-style:italic;font-size:.92em}
+
+  /* ---- toc ---- */
+  nav.toc{background:var(--mist);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.7rem;margin-bottom:40px}
+  nav.toc h2{font-size:1.2rem;margin-bottom:.7rem}
+  nav.toc ol{columns:2;column-gap:2.2rem;margin:0 0 0 1.2rem}
+  nav.toc li{margin-bottom:.35rem}
+  nav.toc a{color:var(--brand);font-weight:500;font-size:.95rem}
+  nav.toc a:hover{text-decoration:underline}
+
+  /* ---- footer ---- */
+  footer{background:var(--ink);color:rgba(255,255,255,.78);padding:64px 0 30px}
+  .foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.12)}
+  .foot-brand .monogram{margin-bottom:16px}
+  .foot-brand p{font-size:.93rem;max-width:34ch;color:rgba(255,255,255,.65)}
+  footer h4{font-family:"Inter",sans-serif;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin-bottom:16px;font-weight:600}
+  footer ul{list-style:none}
+  footer ul li{margin-bottom:10px;font-size:.93rem}
+  footer a:hover{color:var(--blossom)}
+  .foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:24px;font-size:.82rem;color:rgba(255,255,255,.5)}
+  .demo-pill{background:rgba(217,138,160,.18);border:1px solid rgba(217,138,160,.4);color:#f3c6d2;border-radius:999px;padding:.35em 1em;font-weight:500}
+
+  /* ---- mobile menu ---- */
+  .mobile-panel{position:fixed;inset:0;z-index:60;background:var(--brand);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;transform:translateX(100%);transition:transform .45s var(--ease);visibility:hidden}
+  .mobile-panel.open{transform:none;visibility:visible}
+  .mobile-panel a{color:#fff;font-family:"Fraunces",serif;font-size:1.6rem}
+  .mobile-panel .close{position:absolute;top:24px;right:26px;background:none;border:0;color:#fff;font-size:2rem;cursor:pointer;line-height:1}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:820px){
+    .wa-grid{grid-template-columns:1fr;gap:32px}
+    .qr-card{max-width:420px;margin:0 auto}
+  }
+  @media (max-width:680px){
+    .menu{display:none}
+    .burger{display:flex}
+    .foot-top{grid-template-columns:1fr}
+    nav.toc ol{columns:1}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+
+  /* ---- print ---- */
+  @media print{
+    header,.mobile-panel,nav.toc,.logout-btn,.burger,.crumbs{display:none !important}
+    .page-head{background:#fff;color:var(--brand);padding:0 0 1rem}
+    .page-head p,.page-head .meta,.crumbs{color:var(--ink)}
+    .wa-section,.content{padding:1rem 0}
+    .card,.content section{break-inside:avoid}
+    body{background:#fff}
+    footer{background:#fff;color:var(--ink);border-top:1px solid #999}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="hdr" class="scrolled">
+  <div class="wrap nav">
+    <a href="hjem.html#top" class="brand" aria-label="Skodsborg Sundpark forside">
+      <span class="monogram">S</span>
+      <span><b>Skodsborg Sundpark</b><span>Beboerforeningen</span></span>
+    </a>
+    <nav class="menu">
+      <a class="lnk" href="hjem.html#velkomst">Om foreningen</a>
+      <a class="lnk" href="hjem.html#bestyrelse">Bestyrelsen</a>
+      <a class="lnk" href="dokumenter.html">Dokumenter</a>
+      <a class="lnk" href="hjem.html#vedtaegter">Vedtægter</a>
+      <a class="lnk active" href="beredskab.html">Beredskab</a>
+      <a class="lnk" href="hjem.html#nyhedsbrev">Nyhedsbrev</a>
+      <a class="logout-btn" href="#" id="logout">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        Log ud
+      </a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Åbn menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-panel" id="mpanel">
+  <button class="close" id="mclose" aria-label="Luk menu">&times;</button>
+  <a href="hjem.html#velkomst">Om foreningen</a>
+  <a href="hjem.html#bestyrelse">Bestyrelsen</a>
+  <a href="dokumenter.html">Dokumenter</a>
+  <a href="hjem.html#vedtaegter">Vedtægter</a>
+  <a href="beredskab.html">Beredskab</a>
+  <a href="hjem.html#nyhedsbrev">Nyhedsbrev</a>
+  <a class="btn btn-ink" href="#" id="logout-m" style="background:#fff">Log ud</a>
+</div>
+
+<!-- PAGE HEAD -->
+<section class="page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="hjem.html#top">Forside</a> &rsaquo; Beredskab</div>
+    <span class="kicker">Sikkerhed &amp; beredskab</span>
+    <h1>Beredskabsplan</h1>
+    <p>Så vi alle ved, hvad vi skal gøre, når det gælder — ved brand, vandskade, storm og andre akutte hændelser i Sundparken. Og så nye beboere let kan komme med i foreningens WhatsApp-gruppe.</p>
+    <div class="meta">Version: Udkast 1.0 · <mark>[dato]</mark> · Godkendt af bestyrelsen: <mark>[dato]</mark> · Revideres årligt</div>
+  </div>
+</section>
+
+<!-- ALARM -->
+<div class="alarm">
+  Ved akut fare for liv, brand eller alvorlig ulykke: Ring <strong>112</strong> — oplys adresse, hvad der er sket, og om personer er i fare.
+</div>
+
+<!-- WHATSAPP JOIN -->
+<section class="wa-section" id="whatsapp">
+  <div class="wrap wa-grid">
+    <div class="reveal">
+      <span class="kicker">Fællesskab &amp; kommunikation</span>
+      <h2>Bliv en del af foreningens WhatsApp-gruppe</h2>
+      <p>Foreningen har en fælles WhatsApp-gruppe, hvor bestyrelsen deler information, og hvor beboerne kan kommunikere med hinanden — også hurtigt under akutte situationer og kriser.</p>
+      <p><strong>Er du ny i Skodsborg Sundpark?</strong> Så scan QR-koden og bliv medlem af gruppen — det er den nemmeste måde at følge med i, hvad der sker omkring os.</p>
+      <ol class="wa-steps">
+        <li><span class="n">1</span><span>Åbn <strong>kameraet</strong> eller <strong>WhatsApp</strong> på din telefon.</span></li>
+        <li><span class="n">2</span><span>Ret kameraet mod QR-koden her til højre.</span></li>
+        <li><span class="n">3</span><span>Tryk på linket og vælg <strong>“Deltag i gruppe”</strong>.</span></li>
+      </ol>
+    </div>
+    <div class="qr-card reveal">
+      <div class="qr-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#25d366"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2Zm5.8 14.18c-.25.7-1.44 1.33-1.98 1.38-.53.05-1.02.24-3.45-.72-2.9-1.14-4.76-4.1-4.9-4.29-.14-.19-1.18-1.57-1.18-2.99s.74-2.12 1.01-2.41c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.42-.07.65.5.25.6.84 2.08.91 2.23.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.29.38-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.18-.28.36-.23.61-.14.25.09 1.6.76 1.87.9.28.14.46.21.53.33.07.12.07.69-.18 1.39Z"/></svg>
+        Skodsborg Sundpark
+      </div>
+      <div class="qr-sub">WhatsApp-gruppe</div>
+      <img src="billeder/whatsappQR.jpeg" alt="QR-kode til at deltage i Skodsborg Sundpark WhatsApp-gruppe">
+      <div class="wa-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#0b3d22"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2Zm5.8 14.18c-.25.7-1.44 1.33-1.98 1.38-.53.05-1.02.24-3.45-.72-2.9-1.14-4.76-4.1-4.9-4.29-.14-.19-1.18-1.57-1.18-2.99s.74-2.12 1.01-2.41c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.42-.07.65.5.25.6.84 2.08.91 2.23.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.29.38-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.18-.28.36-.23.61-.14.25.09 1.6.76 1.87.9.28.14.46.21.53.33.07.12.07.69-.18 1.39Z"/></svg>
+        Scan for at deltage
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+<div class="read">
+
+<nav class="toc reveal">
+  <h2>Indhold</h2>
+  <ol>
+    <li><a href="#formaal">Formål og anvendelse</a></li>
+    <li><a href="#numre">Vigtige telefonnumre</a></li>
+    <li><a href="#ansvar">Bestyrelsens ansvar</a></li>
+    <li><a href="#handling">Handlingsplaner</a></li>
+    <li><a href="#evakuering">Evakuering og samlingspunkt</a></li>
+    <li><a href="#behov">Beboere med særlige behov</a></li>
+    <li><a href="#kommunikation">Kommunikation</a></li>
+    <li><a href="#forebyggelse">Forebyggelse og vedligehold</a></li>
+    <li><a href="#efter">Efter en hændelse</a></li>
+    <li><a href="#revision">Revision og godkendelse</a></li>
+  </ol>
+</nav>
+
+<section id="formaal" class="reveal">
+  <h2 class="sec"><span class="num">1</span>Formål og anvendelse</h2>
+  <p>Denne beredskabsplan skal sikre, at beboere og bestyrelse i Beboerforeningen Skodsborg Sundpark ved, hvordan de skal handle i tilfælde af akutte hændelser som brand, vandskade, stormskade, strømsvigt eller personskade.</p>
+  <ul>
+    <li>Minimere risikoen for person- og bygningsskader</li>
+    <li>Sikre hurtig og korrekt alarmering</li>
+    <li>Fastlægge klare ansvarsområder i bestyrelsen</li>
+    <li>Sikre effektiv kommunikation til alle beboere før, under og efter en hændelse</li>
+  </ul>
+  <p>Planen gennemgås og opdateres mindst én gang årligt, typisk i forbindelse med den ordinære generalforsamling.</p>
+</section>
+
+<section id="numre" class="reveal">
+  <h2 class="sec"><span class="num">2</span>Vigtige telefonnumre</h2>
+  <div class="tbl-scroll">
+  <table>
+    <tr><th>Funktion</th><th>Nummer</th></tr>
+    <tr><td><strong>Alarm — brand, politi, ambulance</strong></td><td class="tel">112</td></tr>
+    <tr><td>Politi (ikke-akut)</td><td class="tel">114</td></tr>
+    <tr><td>Lægevagten, Region Hovedstaden</td><td class="tel">1813</td></tr>
+    <tr><td>Rudersdal Kommune (hovednummer)</td><td class="tel">46 11 00 00</td></tr>
+    <tr><td>Forsikringsselskab · police nr. <mark>[indsæt]</mark></td><td><mark>[nummer + døgnvagt]</mark></td></tr>
+    <tr><td>VVS-vagt / døgnservice</td><td><mark>[indsæt]</mark></td></tr>
+    <tr><td>El-installatør / vagt</td><td><mark>[indsæt]</mark></td></tr>
+    <tr><td>Elselskab — fejlmelding (Radius)</td><td><mark>[indsæt]</mark></td></tr>
+    <tr><td>Vandforsyning — fejlmelding (Novafos)</td><td><mark>[indsæt]</mark></td></tr>
+    <tr><td>Glarmester (døgnvagt)</td><td><mark>[indsæt]</mark></td></tr>
+    <tr><td>Skadeservice (f.eks. SSG, Polygon)</td><td><mark>[indsæt]</mark></td></tr>
+    <tr><td>Ejendomsadministrator</td><td><mark>[indsæt]</mark></td></tr>
+    <tr><td>Vicevært / ejendomsservice</td><td><mark>[indsæt]</mark></td></tr>
+  </table>
+  </div>
+</section>
+
+<section id="ansvar" class="reveal">
+  <h2 class="sec"><span class="num">3</span>Bestyrelsens beredskabsansvar</h2>
+  <div class="tbl-scroll">
+  <table>
+    <tr><th>Rolle</th><th>Navn</th><th>Telefon</th><th>Ansvar ved hændelse</th></tr>
+    <tr><td>Beredskabsansvarlig (formand)</td><td><mark>[navn]</mark></td><td><mark>[nr.]</mark></td><td>Overordnet koordinering; kontakt til myndigheder og forsikring</td></tr>
+    <tr><td>Stedfortræder (næstformand)</td><td><mark>[navn]</mark></td><td><mark>[nr.]</mark></td><td>Træder til, hvis formanden ikke kan kontaktes</td></tr>
+    <tr><td>Kommunikationsansvarlig</td><td><mark>[navn]</mark></td><td><mark>[nr.]</mark></td><td>Information til beboerne (opslag, mail, WhatsApp-gruppe)</td></tr>
+    <tr><td>Teknisk ansvarlig</td><td><mark>[navn]</mark></td><td><mark>[nr.]</mark></td><td>Hovedhaner, el-tavler, teknikrum, nøgler</td></tr>
+  </table>
+  </div>
+  <div class="notice">
+    <strong>Vigtigt:</strong> Mindst to bestyrelsesmedlemmer skal vide, hvor følgende findes, og hvordan de betjenes:
+    <ul style="margin-top:.5rem">
+      <li>Hovedstophane for vand: <mark>[placering]</mark></li>
+      <li>Hovedafbryder / el-tavle for fællesarealer: <mark>[placering]</mark></li>
+      <li>Gas-/varmecentral og nødstop: <mark>[placering]</mark></li>
+      <li>Nøgler til teknikrum, kælder og fællesarealer: <mark>[placering / nøgleboks]</mark></li>
+      <li>Hjertestarter (AED): <mark>[placering — registrér på hjertestarter.dk]</mark></li>
+      <li>Brandslukningsudstyr: <mark>[placering af slukkere og brandtæpper]</mark></li>
+    </ul>
+  </div>
+</section>
+
+<section id="handling" class="reveal">
+  <h2 class="sec"><span class="num">4</span>Handlingsplaner ved konkrete hændelser</h2>
+
+  <div class="card alertcard">
+    <h3>4.1 · Brand</h3>
+    <ol>
+      <li><strong>Red</strong> — bring personer i sikkerhed. Luk døre efter dig (bremser ild og røg).</li>
+      <li><strong>Alarmér</strong> — ring 112. Oplys adresse: <mark>[fuld adresse]</mark>, hvad der brænder, og om personer er i fare.</li>
+      <li><strong>Sluk</strong> — forsøg kun slukning, hvis det kan ske uden risiko for dig selv.</li>
+      <li><strong>Begræns</strong> — luk døre og vinduer. Brug aldrig elevator ved brand.</li>
+      <li>Gå til <a href="#evakuering" style="color:var(--brand);text-decoration:underline"><strong>samlingspunktet</strong></a> og afvent brandvæsenet.</li>
+      <li>Beredskabsansvarlig møder brandvæsenet, udleverer nøgler og oplyser om bygningens indretning.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3>4.2 · Vandskade / rørbrud</h3>
+    <ol>
+      <li>Luk for <strong>hovedstophanen</strong> (<mark>[placering]</mark>).</li>
+      <li>Sluk for el i det berørte område, hvis vand er nær installationer — rør aldrig ved el-installationer, der står i vand.</li>
+      <li>Kontakt VVS-vagten og eventuelt skadeservice.</li>
+      <li>Flyt værdier og begræns skaden (spande, klude, affugter).</li>
+      <li>Dokumentér skaden med fotos, inden der ryddes op, og anmeld til forsikringen hurtigst muligt.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3>4.3 · Storm og forhøjet vandstand</h3>
+    <p>Sundparken ligger nærmest Øresund — vær derfor særligt opmærksom på stormflod og forhøjet vandstand.</p>
+    <p><strong>Før varslet storm/stormflod (DMI-varsel):</strong></p>
+    <ul>
+      <li>Fastgør eller fjern løse genstande på fællesarealer, altaner og terrasser</li>
+      <li>Kontrollér at tagrender, nedløb og afløbsriste er fri for blade</li>
+      <li>Luk vinduer og døre i fællesarealer og kælder</li>
+      <li>Klargør sandsække/vandbarrierer ved udsatte kælderdøre: <mark>[opbevaringssted]</mark></li>
+    </ul>
+    <p><strong>Under stormen:</strong> Bliv indendørs — gå ikke ud under træer eller løse bygningsdele.</p>
+    <p><strong>Efter stormen:</strong> Teknisk ansvarlig gennemgår bygning og fællesarealer. Skader dokumenteres med fotos og anmeldes til forsikringen; akutte skader afdækkes af skadeservice.</p>
+  </div>
+
+  <div class="card">
+    <h3>4.4 · Strømsvigt</h3>
+    <ol>
+      <li>Undersøg, om svigtet kun gælder ejendommen (tjek el-tavle/HPFI) eller hele området (elselskabets driftsstatus).</li>
+      <li>Ved fejl i ejendommen: kontakt el-vagten. Rør ikke tavlen ved tegn på brand eller sod.</li>
+      <li>Ved længerevarende strømsvigt: vær opmærksom på beboere med el-afhængige hjælpemidler — se afsnit 6.</li>
+      <li>Elevator: kontrollér at ingen sidder fast. Nødtelefonen kontakter <mark>[elevatorfirma + nr.]</mark>.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3>4.5 · Varmesvigt / gasudslip</h3>
+    <ul>
+      <li>Ved gaslugt: undgå åben ild og elektriske kontakter, åbn vinduer, forlad området og ring 112.</li>
+      <li>Ved varmesvigt: kontakt <mark>[varmeleverandør/VVS]</mark> og orientér beboerne om forventet varighed.</li>
+    </ul>
+  </div>
+
+  <div class="card alertcard">
+    <h3>4.6 · Personskade / hjertestop</h3>
+    <ol>
+      <li>Ring <strong>112</strong>.</li>
+      <li>Start førstehjælp. Ved hjertestop: hent hjertestarteren (<mark>[placering]</mark>) og følg dens instruktioner.</li>
+      <li>Send en person ud for at tage imod ambulancen og vise vej.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3>4.7 · Indbrud eller hærværk</h3>
+    <ol>
+      <li>Ved igangværende indbrud: ring 112. Ellers anmeld på 114 eller politi.dk.</li>
+      <li>Rør ikke ved noget, før politiet har været der.</li>
+      <li>Fotografér skader og anmeld til forsikringen.</li>
+      <li>Akut sikring af døre/vinduer via glarmester eller skadeservice.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="evakuering" class="reveal">
+  <h2 class="sec"><span class="num">5</span>Evakuering og samlingspunkt</h2>
+  <div class="notice"><strong>Samlingspunkt:</strong> <mark>[angiv sikkert sted i god afstand fra bygningerne — f.eks. parkeringsplads eller græsareal]</mark></div>
+  <ul>
+    <li>Hjælp naboer — især ældre og gangbesværede. Brug trapper, aldrig elevator.</li>
+    <li>Bestyrelsen (eller tilstedeværende medlem) danner sig overblik over, om alle er ude, og videregiver oplysninger til beredskabet.</li>
+    <li>Gå aldrig tilbage i bygningen, før brandvæsen eller politi har givet lov.</li>
+  </ul>
+</section>
+
+<section id="behov" class="reveal">
+  <h2 class="sec"><span class="num">6</span>Beboere med særlige behov</h2>
+  <p>Beboere, der har brug for hjælp ved evakuering (gangbesvær, hørenedsættelse, el-afhængige hjælpemidler m.v.), opfordres til frivilligt at give besked til bestyrelsen. Oplysningerne opbevares fortroligt, i overensstemmelse med GDPR, og bruges udelukkende i beredskabssituationer.</p>
+  <p>Listen opbevares af: <mark>[beredskabsansvarlig / sikker opbevaring]</mark></p>
+</section>
+
+<section id="kommunikation" class="reveal">
+  <h2 class="sec"><span class="num">7</span>Kommunikation til beboerne</h2>
+  <div class="tbl-scroll">
+  <table>
+    <tr><th>Kanal</th><th>Anvendelse</th></tr>
+    <tr><td>WhatsApp-gruppe</td><td>Akutte varsler og hurtig kommunikation mellem beboere — <a href="#whatsapp" style="color:var(--brand);text-decoration:underline">tilmeld dig her</a></td></tr>
+    <tr><td>Opslag i opgange/fællesarealer</td><td>Al vigtig information</td></tr>
+    <tr><td>E-mail-liste</td><td>Hurtig orientering af alle beboere</td></tr>
+    <tr><td>Foreningens hjemmeside</td><td>Opdateringer og status</td></tr>
+  </table>
+  </div>
+  <p>Ved en hændelse informerer kommunikationsansvarlig hurtigst muligt om: hvad der er sket, hvad beboerne skal gøre, og hvornår næste opdatering kan forventes.</p>
+</section>
+
+<section id="forebyggelse" class="reveal">
+  <h2 class="sec"><span class="num">8</span>Forebyggelse og vedligehold</h2>
+  <ul>
+    <li>Årligt eftersyn af brandslukkere og evt. brandalarmer: <mark>[ansvarlig + måned]</mark></li>
+    <li>Kontrol af hjertestarter (batteri og elektroder): <mark>[ansvarlig + interval]</mark></li>
+    <li>Rensning af tagrender og afløb: forår og efterår</li>
+    <li>Test af HPFI-relæ: årligt</li>
+    <li>Flugtveje holdes altid fri for cykler, barnevogne m.v.</li>
+    <li>Røgalarmer i egne boliger er beboernes eget ansvar — bestyrelsen minder om test 1. december («røgalarmens dag»)</li>
+  </ul>
+</section>
+
+<section id="efter" class="reveal">
+  <h2 class="sec"><span class="num">9</span>Efter en hændelse</h2>
+  <ol>
+    <li>Beredskabsansvarlig samler bestyrelsen til en kort evaluering: Hvad skete der? Hvad fungerede? Hvad skal ændres?</li>
+    <li>Skader anmeldes og følges op over for forsikring og håndværkere.</li>
+    <li>Beboerne orienteres om forløbet og eventuelle konsekvenser.</li>
+    <li>Beredskabsplanen opdateres med læringspunkter.</li>
+  </ol>
+</section>
+
+<section id="revision" class="reveal">
+  <h2 class="sec"><span class="num">10</span>Revision og godkendelse</h2>
+  <div class="tbl-scroll">
+  <table>
+    <tr><th>Version</th><th>Dato</th><th>Ændringer</th><th>Godkendt af</th></tr>
+    <tr><td>1.0</td><td><mark>[dato]</mark></td><td>Første udgave</td><td>Bestyrelsen</td></tr>
+  </table>
+  </div>
+  <div class="notice">Denne plan bør ophænges i opgange/fællesrum i en forkortet version (alarmnumre og handlingsplaner) og gøres tilgængelig i sin helhed her på foreningens hjemmeside.</div>
+</section>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="monogram">S</span>
+        <h4 style="margin-top:14px">Beboerforeningen Skodsborg Sundpark</h4>
+        <p>En registreret beboerforening for husene ud til Øresund i Skodsborg. CVR 41316012.</p>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="mailto:beboerrep.skodsborg@jubii.dk">beboerrep.skodsborg@jubii.dk</a></li>
+          <li>Fysisk postkasse: Opgang 115A</li>
+          <li>CVR-nr. 41316012</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Genveje</h4>
+        <ul>
+          <li><a href="hjem.html#velkomst">Om foreningen</a></li>
+          <li><a href="dokumenter.html">Dokumenter</a></li>
+          <li><a href="hjem.html#vedtaegter">Vedtægter</a></li>
+          <li><a href="beredskab.html">Beredskab</a></li>
+          <li><a href="hjem.html#nyhedsbrev">Tilmeld nyhedsbrev</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Beboerforeningen Skodsborg Sundpark</span>
+      <span class="demo-pill">Designudkast · forslag til ny hjemmeside</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // header scroll state
+  const hdr = document.getElementById('hdr');
+  const onScroll = ()=> hdr.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // mobile menu
+  const panel = document.getElementById('mpanel');
+  document.getElementById('burger').onclick = ()=>panel.classList.add('open');
+  document.getElementById('mclose').onclick = ()=>panel.classList.remove('open');
+  panel.querySelectorAll('a').forEach(a=>a.onclick=()=>panel.classList.remove('open'));
+
+  // reveal on scroll
+  const io = new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay=(i%4*60)+'ms'; io.observe(el); });
+
+  // logout
+  function logout(ev){
+    ev.preventDefault();
+    sessionStorage.removeItem('ssp-auth');
+    location.replace('index.html');
+  }
+  document.getElementById('logout').addEventListener('click', logout);
+  document.getElementById('logout-m').addEventListener('click', logout);
+</script>
+</body>
+</html>
