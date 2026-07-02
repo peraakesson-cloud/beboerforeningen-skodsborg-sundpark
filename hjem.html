@@ -271,8 +271,7 @@
       <a class="lnk" href="#bestyrelse">Bestyrelsen</a>
       <a class="lnk" href="dokumenter.html">Dokumenter</a>
       <a class="lnk" href="#vedtaegter">Vedtægter</a>
-      <a class="lnk" href="beredskab.html">Beredskab</a>
-      <a class="lnk" href="#nyhedsbrev">Nyhedsbrev</a>
+      <a class="lnk" href="beredskab.html">Beredskab og kommunikation</a>
       <a class="lnk" href="#kontakt">Kontakt</a>
       <a class="logout-btn" href="#" id="logout">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
@@ -290,8 +289,7 @@
   <a href="#bestyrelse">Bestyrelsen</a>
   <a href="dokumenter.html">Dokumenter</a>
   <a href="#vedtaegter">Vedtægter</a>
-  <a href="beredskab.html">Beredskab</a>
-  <a href="#nyhedsbrev">Nyhedsbrev</a>
+  <a href="beredskab.html">Beredskab og kommunikation</a>
   <a href="#kontakt">Kontakt</a>
   <a class="btn btn-ghost" href="#" id="logout-m">Log ud</a>
 </div>
@@ -304,7 +302,7 @@
     <h1 class="reveal">Beboerforeningen Skodsborg Sundpark</h1>
     <p class="lead reveal">Et fælles hjem ud til vandet — med plads til naboskab, ro og udsigt over Øresund.</p>
     <div class="cta-row reveal">
-      <a href="#nyhedsbrev" class="btn btn-primary">Tilmeld nyhedsbrev
+      <a href="beredskab.html#whatsapp" class="btn btn-primary">Kom med i WhatsApp-gruppen
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
@@ -519,32 +517,6 @@
   </div>
 </section>
 
-<!-- NEWSLETTER -->
-<section class="block news" id="nyhedsbrev">
-  <div class="wrap">
-    <div class="reveal">
-      <span class="kicker">Nyhedsbrev</span>
-      <h2>Få nyt fra foreningen i din indbakke</h2>
-      <p>Bestyrelsen beder hver beboer tilmelde sig nyhedsbrevet pr. e-mail. Det erstatter de papiromdelte informationer. Dine kontaktoplysninger behandles fortroligt og bruges ikke til andre formål.</p>
-    </div>
-    <div class="form reveal">
-      <form id="signup" action="https://formspree.io/f/xaqgbwwg" method="POST">
-        <label for="navn">Navn</label>
-        <input id="navn" name="navn" type="text" placeholder="Dit navn" required>
-        <label for="mail">E-mail</label>
-        <input id="mail" name="email" type="email" placeholder="dig@eksempel.dk" required>
-        <label for="opgang">Opgang / adresse</label>
-        <input id="opgang" name="opgang" type="text" placeholder="F.eks. Opgang 115A">
-        <input type="hidden" name="_subject" value="Ny tilmelding til nyhedsbrev — Skodsborg Sundpark">
-        <button class="btn" type="submit">Tilmeld mig nyhedsbrevet</button>
-        <p class="privacy">Du kan til enhver tid framelde dig igen.</p>
-      </form>
-      <div class="ok" id="ok">Tak! Du er nu tilmeldt nyhedsbrevet. Du hører fra bestyrelsen.</div>
-      <div class="ok err" id="signup-err" style="display:none">Noget gik galt. Prøv igen, eller skriv til <a href="mailto:beboerrep.skodsborg@jubii.dk">bestyrelsen</a>.</div>
-    </div>
-  </div>
-</section>
-
 <!-- FOOTER -->
 <footer id="kontakt">
   <div class="wrap">
@@ -569,8 +541,7 @@
           <li><a href="#bestyrelse">Bestyrelsen</a></li>
           <li><a href="dokumenter.html">Dokumenter</a></li>
           <li><a href="#vedtaegter">Vedtægter</a></li>
-          <li><a href="beredskab.html">Beredskab</a></li>
-          <li><a href="#nyhedsbrev">Tilmeld nyhedsbrev</a></li>
+          <li><a href="beredskab.html">Beredskab og kommunikation</a></li>
         </ul>
       </div>
     </div>
@@ -598,36 +569,6 @@
     es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
   },{threshold:.14});
   document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay=(i%4*70)+'ms'; io.observe(el); });
-
-  // newsletter — submit to Formspree via AJAX (stays on page)
-  document.getElementById('signup').addEventListener('submit', async function(ev){
-    ev.preventDefault();
-    const form = this;
-    const btn = form.querySelector('button[type="submit"]');
-    const ok = document.getElementById('ok');
-    const err = document.getElementById('signup-err');
-    err.style.display = 'none';
-    btn.disabled = true;
-    const original = btn.textContent;
-    btn.textContent = 'Sender…';
-    try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      });
-      if (res.ok) {
-        form.style.display = 'none';
-        ok.style.display = 'block';
-      } else {
-        throw new Error('submit failed');
-      }
-    } catch (e) {
-      btn.disabled = false;
-      btn.textContent = original;
-      err.style.display = 'block';
-    }
-  });
 
   // logout — clear session and return to the login page
   function logout(ev){
