@@ -78,8 +78,9 @@
   .crumbs{font-size:.86rem;color:rgba(255,255,255,.7);margin-bottom:8px}
   .crumbs a:hover{color:#fff}
   .page-head .meta{margin-top:18px;font-size:.84rem;color:rgba(255,255,255,.6);letter-spacing:.03em}
-  .print-btn{margin-top:24px;display:inline-flex;align-items:center;gap:.55em;cursor:pointer;font-family:inherit;font-size:.94rem;font-weight:600;color:var(--brand);background:#fff;border:0;border-radius:999px;padding:.72em 1.4em;transition:transform .3s var(--ease),background .3s var(--ease),color .3s var(--ease)}
-  .print-btn:hover{background:var(--blossom);color:#fff;transform:translateY(-2px)}
+  .print-row{margin-top:40px;padding-top:32px;border-top:1px solid var(--line);display:flex;justify-content:center}
+  .print-btn{display:inline-flex;align-items:center;gap:.55em;cursor:pointer;font-family:inherit;font-size:.94rem;font-weight:600;color:#fff;background:var(--brand);border:0;border-radius:999px;padding:.8em 1.6em;transition:transform .3s var(--ease),background .3s var(--ease),color .3s var(--ease)}
+  .print-btn:hover{background:var(--brand-soft);transform:translateY(-2px)}
 
   /* ---- alarm banner ---- */
   .alarm{background:var(--alert);color:#fff;text-align:center;padding:1.05rem 1.5rem;font-weight:500}
@@ -229,10 +230,6 @@
     <h1>Beredskabsplan</h1>
     <p>Så vi alle ved, hvad vi skal gøre, når det gælder — ved brand, vandskade, storm og andre akutte hændelser i Sundparken. Og så nye beboere let kan komme med i foreningens WhatsApp-gruppe.</p>
     <div class="meta">Version: Udkast 1.0 · <mark>[dato]</mark> · Godkendt af bestyrelsen: <mark>[dato]</mark> · Revideres årligt</div>
-    <button type="button" class="print-btn no-print" id="print-beredskab">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-      Print / Gem som PDF
-    </button>
   </div>
 </section>
 
@@ -488,6 +485,13 @@
   </div>
   <div class="notice">Denne plan bør ophænges i opgange/fællesrum i en forkortet version (alarmnumre og handlingsplaner) og gøres tilgængelig i sin helhed her på foreningens hjemmeside.</div>
 </section>
+
+<div class="print-row no-print reveal">
+  <button type="button" class="print-btn" id="print-beredskab">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Print / Gem som PDF
+  </button>
+</div>
 
 </div>
 </div>
