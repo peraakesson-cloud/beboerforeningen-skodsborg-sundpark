@@ -73,7 +73,7 @@
 
   /* ---- documents ---- */
   .docs-section{padding:clamp(56px,7vw,90px) 0}
-  .doc-group{margin-bottom:54px}
+  .doc-group{margin-bottom:54px;scroll-margin-top:96px}
   .doc-group:last-child{margin-bottom:0}
   .doc-group > h2{font-size:1.5rem;display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
   .doc-group > h2 small{font-family:"Inter",sans-serif;font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sound)}
@@ -172,20 +172,20 @@
 <!-- DOCUMENTS -->
 <section class="docs-section">
   <div class="wrap">
-    <div class="doc-group reveal">
+    <div class="doc-group reveal" id="referater">
       <h2>Referater <small>Generalforsamling</small></h2>
       <p class="sub">Referater fra de ordinære generalforsamlinger.</p>
-      <div class="doc-list" id="referater"></div>
+      <div class="doc-list" id="referater-list"></div>
     </div>
-    <div class="doc-group reveal">
+    <div class="doc-group reveal" id="beretninger">
       <h2>Beretninger <small>Årligt</small></h2>
       <p class="sub">Bestyrelsens årlige beretninger.</p>
-      <div class="doc-list" id="beretninger"></div>
+      <div class="doc-list" id="beretninger-list"></div>
     </div>
-    <div class="doc-group reveal">
+    <div class="doc-group reveal" id="regnskaber">
       <h2>Regnskaber <small>Årligt</small></h2>
       <p class="sub">Foreningens reviderede årsregnskaber.</p>
-      <div class="doc-list" id="regnskaber"></div>
+      <div class="doc-list" id="regnskaber-list"></div>
     </div>
   </div>
 </section>
@@ -254,7 +254,7 @@
     }).join('');
   }
   Object.keys(DOCS).forEach(function(key){
-    document.getElementById(key).innerHTML = buildRows(key);
+    document.getElementById(key + '-list').innerHTML = buildRows(key);
   });
 
   // ---- print a PDF (hidden iframe, fallback to new tab) ----
