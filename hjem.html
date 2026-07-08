@@ -29,6 +29,8 @@
     --mist:#f3f1ee;         /* soft neutral section bg */
     --line:#e7e1da;         /* hairlines */
     --muted:#5c4f56;        /* secondary text — WCAG AA 4.5:1 on paper & mist */
+    --wa:#25d366;           /* WhatsApp green */
+    --wa-dark:#128c4b;
     --maxw:1180px;
     --ease:cubic-bezier(.22,.61,.36,1);
   }
@@ -59,7 +61,7 @@
   [tabindex="-1"]:focus{outline:none}
 
   /* fixed-header offset for in-page anchors */
-  #indhold,#velkomst,#hurtig,#bestyrelse,#vedtaegter{scroll-margin-top:96px}
+  #indhold,#velkomst,#hurtig,#bestyrelse,#vedtaegter,#nyheder,#whatsapp{scroll-margin-top:96px}
   h1,h2,h3,.serif{font-family:"Fraunces",Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:-.01em}
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
@@ -160,6 +162,22 @@
   .photo-band .kicker::before{background:linear-gradient(90deg,#fff,var(--blossom))}
   .photo-band p.band-text{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:clamp(1.5rem,2.8vw,2.3rem);line-height:1.15;max-width:22ch;margin-top:.45em;text-shadow:0 2px 26px rgba(0,0,0,.3)}
 
+  /* ---- whatsapp join ---- */
+  .wa-section{background:var(--mist)}
+  .wa-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center}
+  .wa-grid .kicker{color:var(--wa-dark)}
+  .wa-grid .kicker::before{background:linear-gradient(90deg,var(--wa-dark),var(--wa))}
+  .wa-grid h2{font-size:clamp(1.7rem,3vw,2.4rem);margin:.35em 0 .5em}
+  .wa-grid p{color:var(--muted);margin-bottom:1em}
+  .wa-steps{list-style:none;margin:18px 0 0;padding:0}
+  .wa-steps li{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;color:var(--ink)}
+  .wa-steps .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--wa-dark);color:#fff;display:grid;place-items:center;font-size:.85rem;font-weight:600}
+  .qr-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:0 30px 60px -30px rgba(42,18,31,.4);text-align:center}
+  .qr-card .qr-title{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:600;color:var(--ink);margin-bottom:4px}
+  .qr-card .qr-sub{font-size:.9375rem;color:var(--muted);margin-bottom:18px}
+  .qr-card img{width:100%;max-width:300px;height:auto;margin:0 auto;border-radius:12px}
+  .qr-card .wa-badge{display:inline-flex;align-items:center;gap:.5em;margin-top:16px;background:var(--wa);color:#0b3d22;font-weight:600;font-size:.9rem;padding:.55em 1.2em;border-radius:999px}
+
   /* ---- quick access cards ---- */
   .quick{background:var(--mist)}
   .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px}
@@ -238,6 +256,8 @@
     .welcome .photo{order:-1}
     .cards{grid-template-columns:repeat(2,1fr)}
     .board-grid{grid-template-columns:repeat(2,1fr)}
+    .wa-grid{grid-template-columns:1fr;gap:32px}
+    .qr-card{max-width:420px;margin:0 auto}
     .arch-grid{grid-template-columns:1fr;gap:36px}
     .foot-top{grid-template-columns:1fr 1fr}
   }
@@ -281,9 +301,10 @@
     <nav class="menu">
       <a class="lnk" href="#velkomst">Om foreningen</a>
       <a class="lnk" href="#bestyrelse">Bestyrelsen</a>
+      <a class="lnk" href="nyheder.html">Nyheder</a>
       <a class="lnk" href="dokumenter.html">Dokumenter</a>
       <a class="lnk" href="#vedtaegter">Vedtægter</a>
-      <a class="lnk" href="beredskab.html">Beredskab og kommunikation</a>
+      <a class="lnk" href="beredskab.html">Beredskab</a>
       <a class="logout-btn" href="#" id="logout">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
         Log ud
@@ -298,9 +319,10 @@
   <button class="close" id="mclose" aria-label="Luk menu">&times;</button>
   <a href="#velkomst">Om foreningen</a>
   <a href="#bestyrelse">Bestyrelsen</a>
+  <a href="nyheder.html">Nyheder</a>
   <a href="dokumenter.html">Dokumenter</a>
   <a href="#vedtaegter">Vedtægter</a>
-  <a href="beredskab.html">Beredskab og kommunikation</a>
+  <a href="beredskab.html">Beredskab</a>
   <a class="btn btn-ghost" href="#" id="logout-m">Log ud</a>
 </div>
 
@@ -312,7 +334,7 @@
     <h1 class="reveal">Beboerforeningen Skodsborg Sundpark</h1>
     <p class="lead reveal">Et fælles hjem ud til vandet — med plads til naboskab, ro og udsigt over Øresund.</p>
     <div class="cta-row reveal">
-      <a href="beredskab.html#whatsapp" class="btn btn-primary">Kom med i WhatsApp-gruppen
+      <a href="#whatsapp" class="btn btn-primary">Kom med i WhatsApp-gruppen
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
@@ -527,6 +549,35 @@
   </div>
 </section>
 
+<!-- WHATSAPP JOIN -->
+<section class="block wa-section" id="whatsapp">
+  <div class="wrap wa-grid">
+    <div class="reveal">
+      <span class="kicker">Fællesskab &amp; kommunikation</span>
+      <h2>Bliv en del af foreningens WhatsApp-gruppe</h2>
+      <p>Foreningen har en fælles WhatsApp-gruppe, hvor bestyrelsen deler information, og hvor beboerne kan kommunikere med hinanden — også hurtigt under akutte situationer og kriser.</p>
+      <p><strong>Er du ny i Skodsborg Sundpark?</strong> Så scan QR-koden og bliv medlem af gruppen — det er den nemmeste måde at følge med i, hvad der sker omkring os.</p>
+      <ol class="wa-steps">
+        <li><span class="n">1</span><span>Åbn <strong>kameraet</strong> eller <strong>WhatsApp</strong> på din telefon.</span></li>
+        <li><span class="n">2</span><span>Ret kameraet mod QR-koden her til højre.</span></li>
+        <li><span class="n">3</span><span>Tryk på linket og vælg <strong>“Deltag i gruppe”</strong>.</span></li>
+      </ol>
+    </div>
+    <div class="qr-card reveal">
+      <div class="qr-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#25d366"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2Zm5.8 14.18c-.25.7-1.44 1.33-1.98 1.38-.53.05-1.02.24-3.45-.72-2.9-1.14-4.76-4.1-4.9-4.29-.14-.19-1.18-1.57-1.18-2.99s.74-2.12 1.01-2.41c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.42-.07.65.5.25.6.84 2.08.91 2.23.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.29.38-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.18-.28.36-.23.61-.14.25.09 1.6.76 1.87.9.28.14.46.21.53.33.07.12.07.69-.18 1.39Z"/></svg>
+        Skodsborg Sundpark
+      </div>
+      <div class="qr-sub">WhatsApp-gruppe</div>
+      <img src="billeder/whatsappQR.jpeg" alt="QR-kode til at deltage i Skodsborg Sundpark WhatsApp-gruppe" width="1170" height="1306" loading="lazy">
+      <div class="wa-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#0b3d22"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2Zm5.8 14.18c-.25.7-1.44 1.33-1.98 1.38-.53.05-1.02.24-3.45-.72-2.9-1.14-4.76-4.1-4.9-4.29-.14-.19-1.18-1.57-1.18-2.99s.74-2.12 1.01-2.41c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.42-.07.65.5.25.6.84 2.08.91 2.23.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.29.38-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.18-.28.36-.23.61-.14.25.09 1.6.76 1.87.9.28.14.46.21.53.33.07.12.07.69-.18 1.39Z"/></svg>
+        Scan for at deltage
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer id="kontakt">
   <div class="wrap">
@@ -549,9 +600,10 @@
         <ul>
           <li><a href="#velkomst">Om foreningen</a></li>
           <li><a href="#bestyrelse">Bestyrelsen</a></li>
+          <li><a href="nyheder.html">Nyheder</a></li>
           <li><a href="dokumenter.html">Dokumenter</a></li>
           <li><a href="#vedtaegter">Vedtægter</a></li>
-          <li><a href="beredskab.html">Beredskab og kommunikation</a></li>
+          <li><a href="beredskab.html">Beredskab</a></li>
         </ul>
       </div>
     </div>
