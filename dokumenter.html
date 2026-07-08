@@ -231,9 +231,9 @@
 <script>
   // ---- document data ----
   const DOCS = {
-    referater:  { label: 'Referat',   file: 'referat',   years: [2025, 2024, 2023, 2022] },
-    beretninger:{ label: 'Beretning', file: 'beretning', years: [2025, 2024, 2023, 2022] },
-    regnskaber: { label: 'Regnskab',  file: 'regnskab',  years: [2025, 2024, 2023, 2022] },
+    referater:  { label: 'Referat',   file: 'Referat',   years: [2025, 2024, 2023, 2022, 2021, 2020, 2019] },
+    beretninger:{ label: 'Beretning', file: 'Beretning', years: [2024, 2023, 2021, 2020, 2019, 2018] },
+    regnskaber: { label: 'Regnskab',  file: 'Regnskab',  years: [2024, 2023, 2022, 2021, 2020, 2019, 2018] },
   };
   const fileIcon = '<svg class="fic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3h9l5 5v13H5z"/><path d="M13 3v6h6"/></svg>';
   const dlIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>';
@@ -242,7 +242,7 @@
   function buildRows(key){
     const g = DOCS[key];
     return g.years.map(function(y){
-      const url = 'dokumenter/' + g.file + '-' + y + '.pdf';
+      const url = 'dokumenter/' + g.file + y + '.pdf';
       return ''
         + '<div class="doc">'
         +   '<a class="doc-main" href="' + url + '" target="_blank" rel="noopener">'
